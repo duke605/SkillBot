@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using Discord;
 using Fclp;
+using Newtonsoft.Json.Linq;
 using SkillBot.Utilities;
 
 namespace SkillBot.Commands {
@@ -123,7 +124,7 @@ namespace SkillBot.Commands {
                     {
                         decimal time = m.Time;
                         int hours = (int) time;
-                        int minutes = (int) ((time % 1)*60);
+                        int minutes = (int) ((time%1)*60);
                         string t = $"{hours}h{minutes}m";
 
                         return new
@@ -133,13 +134,14 @@ namespace SkillBot.Commands {
                             m.Level,
                             m.Exp,
                             m.ExpPerHour,
-                            Cost = m.Cost * (int) Math.Ceiling(remainingExp / (m.Exp * a.Boost)),
-                            GpXp = m.Cost / m.Exp,
+                            Cost = m.Cost*(int) Math.Ceiling(remainingExp/(m.Exp*a.Boost)),
+                            GpXp = m.Cost/m.Exp,
                             Time = t
                         };
                     });
 
-                string table = Table.MakeTable(methods, new[] {"Number", "Name", "Level", "Exp", "Exp per Hour", "Profit/Loss", "Gp/Xp", "Time"});
+                string table = Table.MakeTable(methods,
+                    new[] {"Number", "Name", "Level", "Exp", "Exp per Hour", "Profit/Loss", "Gp/Xp", "Time"});
 
                 // Checking if it can send to the channel
                 if (table.Length <= 2000)
@@ -151,27 +153,37 @@ namespace SkillBot.Commands {
                 // Uploading to pastebin
                 var data = new
                 {
-                    api_option = "paste",
-                    api_dev_key = Secret.PastebinToken,
-                    api_paste_code = table,
-                    api_paste_expire_date = "10M"
+                    description = "Skill table",
+                    @public = true,
+                    files = new
+                    {
+                        table = new
+                        {
+                            content = table
+                        }
+                    }
                 };
 
-                using (resp = await Http.Post("http://pastebin.com/api/api_post.php", data))
+                
+                using (resp = await Http.Post("https://api.github.com/gists", data))
                 {
                     // Checking if post was successful
                     if (resp.IsSuccessStatusCode)
                     {
-                        await e.Channel.SendMessage("<" + resp.Content.ReadAsStringAsync().Result.Replace(".com", ".com/raw") + ">");
+                        string json = await resp.Content.ReadAsStringAsync();
+                        JObject o = JObject.Parse(json);
+                        await e.Channel.SendMessage($"<{o["files"]["table"]["raw_url"]}>");
                     }
 
                     // Error
                     else
                     {
-                        await e.Channel.SendMessage($"`The table was to big to send via Discord and Pastebin returned error code: {resp.StatusCode}`");
+                        await
+                            e.Channel.SendMessage($"`The table was to big to send via Discord and Pastebin returned error code: {resp.StatusCode}`");
                     }
                 }
             }
+
         }
 
         private struct Arguments 

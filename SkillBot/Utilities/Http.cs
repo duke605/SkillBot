@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using Fclp.Internals.Extensions;
 using Newtonsoft.Json;
+using SkillBot.Extensions;
 
 namespace SkillBot.Utilities {
     class Http {
@@ -29,9 +25,13 @@ namespace SkillBot.Utilities {
             using (HttpClient client = new HttpClient())
             {
                 Uri uri = new Uri(url);
-                Dictionary<string, string> dict = new Dictionary<string, string>();
-                data.GetType().GetProperties().ForEach(p => dict[p.Name] = p.GetValue(data).ToString());
-                var content = new FormUrlEncodedContent(dict);
+                var content = new ByteArrayContent(JsonConvert.SerializeObject(data).ToBytes());
+
+                // Headers
+                client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Mozilla", "5.0"));
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
                 return await client.PostAsync(uri, content);
             }
         }

@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SkillBot.Extensions {
     static class StringExtensions {
 
-        public static int ToInt(this String str, int defaultTo = -1)
+        /// <summary>
+        /// Converts a string into an in
+        /// </summary>
+        /// <param name="str">The string that represents and integer</param>
+        /// <param name="defaultTo">The return value if the string can not be parsed</param>
+        /// <returns>The representation of the string</returns>
+        public static int ToInt(this string str, int defaultTo = -1)
         {
             try
             {
@@ -18,6 +21,16 @@ namespace SkillBot.Extensions {
             {
                 return defaultTo;
             }
+        }
+
+        /// <summary>
+        /// Converts a string to a byte array
+        /// </summary>
+        /// <param name="str">The string to convert</param>
+        /// <returns>a byte array</returns>
+        public static byte[] ToBytes(this string str)
+        {
+            return Encoding.UTF8.GetBytes(str);
         }
     }
 }
