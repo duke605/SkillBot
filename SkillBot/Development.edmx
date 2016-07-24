@@ -1,0 +1,302 @@
+﻿<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+<!-- EF Runtime content -->
+<edmx:Runtime>
+<!-- SSDL content -->
+<edmx:StorageModels>
+<Schema Namespace="DevelopmentModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DevelopmentModelStoreContainer">
+    <EntitySet Name="Inputs" EntityType="DevelopmentModel.Store.Inputs" store:Type="Tables" />
+    <EntitySet Name="Items" EntityType="DevelopmentModel.Store.Items" store:Type="Tables" />
+    <EntitySet Name="Methods" EntityType="DevelopmentModel.Store.Methods" store:Type="Tables" />
+    <EntitySet Name="Outputs" EntityType="DevelopmentModel.Store.Outputs" store:Type="Tables" />
+    <AssociationSet Name="FK_Inputs_to_Items" Association="DevelopmentModel.Store.FK_Inputs_to_Items">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="Inputs" EntitySet="Inputs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inputs_to_Methods" Association="DevelopmentModel.Store.FK_Inputs_to_Methods">
+      <End Role="Methods" EntitySet="Methods" />
+      <End Role="Inputs" EntitySet="Inputs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Outputs_to_Items" Association="DevelopmentModel.Store.FK_Outputs_to_Items">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="Outputs" EntitySet="Outputs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Outputs_to_Methods" Association="DevelopmentModel.Store.FK_Outputs_to_Methods">
+      <End Role="Methods" EntitySet="Methods" />
+      <End Role="Outputs" EntitySet="Outputs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Inputs">
+    <Key>
+      <PropertyRef Name="ItemId" />
+      <PropertyRef Name="MethodId" />
+    </Key>
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="MethodId" Type="int" Nullable="false" />
+    <Property Name="Qty" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Price" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Methods">
+    <Key>
+      <PropertyRef Name="MethodId" />
+    </Key>
+    <Property Name="MethodId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Skill" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Exp" Type="numeric" Nullable="false" Precision="19" Scale="2" />
+    <Property Name="Level" Type="int" Nullable="false" />
+    <Property Name="Units" Type="int" Nullable="false" />
+    <Property Name="User" Type="nvarchar" Nullable="false" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Outputs">
+    <Key>
+      <PropertyRef Name="ItemId" />
+      <PropertyRef Name="MethodId" />
+    </Key>
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="MethodId" Type="int" Nullable="false" />
+    <Property Name="Qty" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Inputs_to_Items">
+    <End Role="Items" Type="DevelopmentModel.Store.Items" Multiplicity="1" />
+    <End Role="Inputs" Type="DevelopmentModel.Store.Inputs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="Inputs">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inputs_to_Methods">
+    <End Role="Methods" Type="DevelopmentModel.Store.Methods" Multiplicity="1" />
+    <End Role="Inputs" Type="DevelopmentModel.Store.Inputs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Methods">
+        <PropertyRef Name="MethodId" />
+      </Principal>
+      <Dependent Role="Inputs">
+        <PropertyRef Name="MethodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Outputs_to_Items">
+    <End Role="Items" Type="DevelopmentModel.Store.Items" Multiplicity="1" />
+    <End Role="Outputs" Type="DevelopmentModel.Store.Outputs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="Outputs">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Outputs_to_Methods">
+    <End Role="Methods" Type="DevelopmentModel.Store.Methods" Multiplicity="1" />
+    <End Role="Outputs" Type="DevelopmentModel.Store.Outputs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Methods">
+        <PropertyRef Name="MethodId" />
+      </Principal>
+      <Dependent Role="Outputs">
+        <PropertyRef Name="MethodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
+</edmx:StorageModels>
+<!-- CSDL content -->
+<edmx:ConceptualModels>
+<Schema Namespace="DevelopmentModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DevelopmentEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Inputs" EntityType="DevelopmentModel.Input" />
+    <EntitySet Name="Items" EntityType="DevelopmentModel.Item" />
+    <EntitySet Name="Methods" EntityType="DevelopmentModel.Method" />
+    <EntitySet Name="Outputs" EntityType="DevelopmentModel.Output" />
+    <AssociationSet Name="FK_Inputs_to_Items" Association="DevelopmentModel.FK_Inputs_to_Items">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="Inputs" EntitySet="Inputs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Inputs_to_Methods" Association="DevelopmentModel.FK_Inputs_to_Methods">
+      <End Role="Methods" EntitySet="Methods" />
+      <End Role="Inputs" EntitySet="Inputs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Outputs_to_Items" Association="DevelopmentModel.FK_Outputs_to_Items">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="Outputs" EntitySet="Outputs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Outputs_to_Methods" Association="DevelopmentModel.FK_Outputs_to_Methods">
+      <End Role="Methods" EntitySet="Methods" />
+      <End Role="Outputs" EntitySet="Outputs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Input">
+    <Key>
+      <PropertyRef Name="ItemId" />
+      <PropertyRef Name="MethodId" />
+    </Key>
+    <Property Name="ItemId" Type="Int32" Nullable="false" />
+    <Property Name="MethodId" Type="Int32" Nullable="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Item" Relationship="DevelopmentModel.FK_Inputs_to_Items" FromRole="Inputs" ToRole="Items" />
+    <NavigationProperty Name="Method" Relationship="DevelopmentModel.FK_Inputs_to_Methods" FromRole="Inputs" ToRole="Methods" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Inputs" Relationship="DevelopmentModel.FK_Inputs_to_Items" FromRole="Items" ToRole="Inputs" />
+    <NavigationProperty Name="Outputs" Relationship="DevelopmentModel.FK_Outputs_to_Items" FromRole="Items" ToRole="Outputs" />
+  </EntityType>
+  <EntityType Name="Method">
+    <Key>
+      <PropertyRef Name="MethodId" />
+    </Key>
+    <Property Name="MethodId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Skill" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Exp" Type="Decimal" Nullable="false" Precision="19" Scale="2" />
+    <Property Name="Level" Type="Int32" Nullable="false" />
+    <Property Name="Units" Type="Int32" Nullable="false" />
+    <Property Name="User" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Inputs" Relationship="DevelopmentModel.FK_Inputs_to_Methods" FromRole="Methods" ToRole="Inputs" />
+    <NavigationProperty Name="Outputs" Relationship="DevelopmentModel.FK_Outputs_to_Methods" FromRole="Methods" ToRole="Outputs" />
+  </EntityType>
+  <EntityType Name="Output">
+    <Key>
+      <PropertyRef Name="ItemId" />
+      <PropertyRef Name="MethodId" />
+    </Key>
+    <Property Name="ItemId" Type="Int32" Nullable="false" />
+    <Property Name="MethodId" Type="Int32" Nullable="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Item" Relationship="DevelopmentModel.FK_Outputs_to_Items" FromRole="Outputs" ToRole="Items" />
+    <NavigationProperty Name="Method" Relationship="DevelopmentModel.FK_Outputs_to_Methods" FromRole="Outputs" ToRole="Methods" />
+  </EntityType>
+  <Association Name="FK_Inputs_to_Items">
+    <End Role="Items" Type="DevelopmentModel.Item" Multiplicity="1" />
+    <End Role="Inputs" Type="DevelopmentModel.Input" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="Inputs">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Inputs_to_Methods">
+    <End Role="Methods" Type="DevelopmentModel.Method" Multiplicity="1" />
+    <End Role="Inputs" Type="DevelopmentModel.Input" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Methods">
+        <PropertyRef Name="MethodId" />
+      </Principal>
+      <Dependent Role="Inputs">
+        <PropertyRef Name="MethodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Outputs_to_Items">
+    <End Role="Items" Type="DevelopmentModel.Item" Multiplicity="1" />
+    <End Role="Outputs" Type="DevelopmentModel.Output" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="Outputs">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Outputs_to_Methods">
+    <End Role="Methods" Type="DevelopmentModel.Method" Multiplicity="1" />
+    <End Role="Outputs" Type="DevelopmentModel.Output" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Methods">
+        <PropertyRef Name="MethodId" />
+      </Principal>
+      <Dependent Role="Outputs">
+        <PropertyRef Name="MethodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
+</edmx:ConceptualModels>
+<!-- C-S mapping content -->
+<edmx:Mappings>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DevelopmentModelStoreContainer" CdmEntityContainer="DevelopmentEntities">
+    <EntitySetMapping Name="Inputs">
+      <EntityTypeMapping TypeName="DevelopmentModel.Input">
+        <MappingFragment StoreEntitySet="Inputs">
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Items">
+      <EntityTypeMapping TypeName="DevelopmentModel.Item">
+        <MappingFragment StoreEntitySet="Items">
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Methods">
+      <EntityTypeMapping TypeName="DevelopmentModel.Method">
+        <MappingFragment StoreEntitySet="Methods">
+          <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Skill" ColumnName="Skill" />
+          <ScalarProperty Name="Exp" ColumnName="Exp" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+          <ScalarProperty Name="Units" ColumnName="Units" />
+          <ScalarProperty Name="User" ColumnName="User" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Outputs">
+      <EntityTypeMapping TypeName="DevelopmentModel.Output">
+        <MappingFragment StoreEntitySet="Outputs">
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
+</edmx:Mappings>
+</edmx:Runtime>
+<!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+<edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+<Connection><DesignerInfoPropertySet><DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" /></DesignerInfoPropertySet></Connection>
+<edmx:Options><DesignerInfoPropertySet><DesignerProperty Name="ValidateOnBuild" Value="True" /><DesignerProperty Name="EnablePluralization" Value="True" /><DesignerProperty Name="IncludeForeignKeysInModel" Value="True" /><DesignerProperty Name="UseLegacyProvider" Value="False" /><DesignerProperty Name="CodeGenerationStrategy" Value="None" /></DesignerInfoPropertySet></edmx:Options>
+<edmx:Diagrams >
+      <Diagram DiagramId="70f1de25df874e429de0005d0fb5e092" Name="Diagram1">
+        <EntityTypeShape EntityType="DevelopmentModel.Input" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DevelopmentModel.Item" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DevelopmentModel.Method" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DevelopmentModel.Output" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DevelopmentModel.FK_Inputs_to_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DevelopmentModel.FK_Inputs_to_Methods" ManuallyRouted="false" />
+        <AssociationConnector Association="DevelopmentModel.FK_Outputs_to_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="DevelopmentModel.FK_Outputs_to_Methods" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+</edmx:Designer></edmx:Edmx>
