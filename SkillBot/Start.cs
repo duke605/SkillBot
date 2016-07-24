@@ -39,7 +39,6 @@ namespace SkillBot {
             // Setting up command listener
             Client.MessageReceived += async (s, e) =>
             {
-
                 // Ignoring self or messages that don't start with !
                 if (e.Message.IsAuthor || !e.Message.Text.StartsWith("!") || e.Message.Text.Length <= 1)
                     return;

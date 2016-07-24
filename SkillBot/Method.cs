@@ -27,7 +27,7 @@ namespace SkillBot
         public decimal Exp { get; set; }
         public int Level { get; set; }
         public int Units { get; set; }
-        public string User { get; set; }
+        public long UserId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Input> Inputs { get; set; }

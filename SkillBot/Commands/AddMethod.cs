@@ -118,7 +118,7 @@ namespace SkillBot.Commands {
                     Level = a.Level,
                     Skill = a.Skill.ToString(),
                     Name = a.Name,
-                    User = e.User.Name
+                    UserId = (long) e.User.Id
                 };
 
                 await m.Edit("`Adding method... [Adding method to DB]`");
