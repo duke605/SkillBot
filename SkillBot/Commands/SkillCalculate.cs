@@ -42,6 +42,11 @@ namespace SkillBot.Commands {
                 .SetDefault(Arguments.SortDirection.Asc)
                 .WithDescription("The direction of the sort (Asc, Desc)");
 
+            parser.Setup<bool>('g', "github")
+                .Callback(git => a.GitHub = git)
+                .SetDefault(false)
+                .WithDescription("Force table to be uploaded to github. (Helps if on a smaller screen");
+
             parser.Setup<int>('l', "level")
                 .Callback(level => a.TargetLevel = level)
                 .Required()
@@ -144,13 +149,13 @@ namespace SkillBot.Commands {
                     new[] {"Number", "Name", "Level", "Exp", "Exp per Hour", "Profit/Loss", "Gp/Xp", "Time"});
 
                 // Checking if it can send to the channel
-                if (table.Length <= 2000)
+                if (table.Length <= 2000 && !a.GitHub)
                 {
                     await e.Channel.SendMessage($"```{table}```");
                     return;
                 }
 
-                // Uploading to pastebin
+                // Uploading to github
                 var data = new
                 {
                     description = "Skill table",
@@ -179,7 +184,7 @@ namespace SkillBot.Commands {
                     else
                     {
                         await
-                            e.Channel.SendMessage($"`The table was to big to send via Discord and Pastebin returned error code: {resp.StatusCode}`");
+                            e.Channel.SendMessage($"`The table was to big to send via Discord and GitHub returned error code: {resp.StatusCode}`");
                     }
                 }
             }
@@ -191,7 +196,7 @@ namespace SkillBot.Commands {
             public string Username { get; set; }
             public int TargetLevel { get; set; }
             public int TargetExp { get; set; }
-            public bool Help { get; set; }
+            public bool GitHub { get; set; }
             public decimal Boost { get; set; }
             public Skill Skill { get; set; }
             public SortOrder Sort { get; set; }
