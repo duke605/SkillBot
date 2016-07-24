@@ -107,7 +107,7 @@ namespace SkillBot.Commands {
                 // Adding new items to the DB
                 if (!await saveNewItems(a.Inputs, a.Outputs, db))
                 {
-                    await m.Edit("`Could not add method because of an error when adding items. (Are your item ids correct?)`");
+                    await m.Edit("`Could not add method because of an error when adding items. (Are your item ids correct?)` " + a.Name);
                     return;
                 }
 
@@ -118,7 +118,7 @@ namespace SkillBot.Commands {
                     Level = a.Level,
                     Skill = a.Skill.ToString(),
                     Name = a.Name,
-                    UserId = (long) e.User.Id
+                    UserId = (long) 1
                 };
 
                 await m.Edit("`Adding method... [Adding method to DB]`");
@@ -195,7 +195,7 @@ namespace SkillBot.Commands {
             return true;
         }
 
-        private struct Arguments
+        public struct Arguments
         {
             public IEnumerable<Item> Inputs { get; set; }
             public IEnumerable<Item> Outputs { get; set; }

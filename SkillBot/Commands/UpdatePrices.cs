@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Linq.Dynamic;
 using Discord;
+using Fclp;
 using Fclp.Internals.Extensions;
 using SkillBot.Utilities;
 
@@ -13,20 +17,36 @@ namespace SkillBot.Commands {
 
         public object ParseCommand(string[] args)
         {
-            return null;
+            FluentCommandLineParser parser = new FluentCommandLineParser();
+            Arguments a = new Arguments();
+
+            parser.Setup<int?>('t', "take")
+                .SetDefault(null)
+                .Callback(take => a.Take = take);
+
+            parser.Setup<int>('s', "skip")
+                .SetDefault(0)
+                .Callback(skip => a.Skip = skip);
+
+            parser.Parse(args);
+
+            return a;
         }
-        
+
         #pragma warning disable CS4014
         public async void Handle(object args, MessageEventArgs e)
         {
+            Arguments a = (Arguments) args;
             Message m = await e.Channel.SendMessage("`Updating item prices...`");
+            Console.WriteLine("Updating items...");
             DevelopmentEntities db = new DevelopmentEntities();
-            int count = db.Items.Count();
+            var items = a.Take == null ? db.Items : db.Items.Take(a.Take.Value).OrderBy(i => i.ItemId).Skip(a.Skip);
+            int count = items.Count() - 1;
 
             // Rapidly updating items
-            db.Items.ForEach(async item =>
+            items.ForEach(item =>
             {
-                Item i = await Runescape.GetItemInfo(item.ItemId);
+                Item i = Runescape.GetItemInfo(item.ItemId, true).Result;
 
                 // Checking if response was successful
                 if (i != null)
@@ -44,9 +64,22 @@ namespace SkillBot.Commands {
                 if (count <= 0)
                 {
                     m.Edit("`Updating item prices... Done.`");
-                    db.SaveChanges();
+                }
+                else
+                {
+                    Console.Write($"\r{count} items remaining.");
                 }
             });
+
+
+            db.SaveChanges();
+            db.Dispose();
+        }
+
+        private struct Arguments
+        {
+            public int? Take { get; set; }
+            public int Skip { get; set; }
         }
     }
 }

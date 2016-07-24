@@ -15,10 +15,27 @@ namespace SkillBot.Extensions {
         {
             try
             {
-                return Int32.Parse(str, NumberStyles.AllowThousands);
+                return int.Parse(str, NumberStyles.AllowThousands);
             }
             catch (Exception)
             {
+                return defaultTo;
+            }
+        }
+
+        public static decimal ToDecimal(this string str, decimal defaultTo = -1)
+        {
+            try {
+                return decimal.Parse(str, NumberStyles.AllowThousands);
+            } catch (Exception) {
+                return defaultTo;
+            }
+        }
+
+        public static double ToDouble(this string str, double defaultTo = -1) {
+            try {
+                return double.Parse(str, NumberStyles.AllowThousands);
+            } catch (Exception) {
                 return defaultTo;
             }
         }

@@ -10,7 +10,7 @@ namespace SkillBot {
 
     class Start {
         public static readonly DiscordClient Client = new DiscordClient();
-        private static readonly Dictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
+        public static readonly Dictionary<string, ICommand> _commands = new Dictionary<string, ICommand>();
 
         public static void Main(string[] args) {
             Setup();

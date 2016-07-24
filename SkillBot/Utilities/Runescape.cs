@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Fclp.Internals.Extensions;
 using Newtonsoft.Json.Linq;
 using SkillBot.Commands;
 using SkillBot.Extensions;
@@ -74,8 +75,14 @@ namespace SkillBot.Utilities {
             return (Stats.Stat) typeof(Stats).GetProperty(skill.ToString()).GetValue(stats);
         }
 
-        public static async Task<Item> GetItemInfo(int itemId)
+        public static async Task<Item> GetItemInfo(int itemId, bool justPrice = false)
         {
+            int wait = 100;
+            bool useProxy = true;
+            string proxy = $"https://crossorigin.me/";
+            string url = $"http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item={itemId}";
+            string graphUrl = $"http://services.runescape.com/m=itemdb_rs/api/graph/{itemId}.json";
+
             Item item = new Item()
             {
                 ItemId = itemId
@@ -83,44 +90,75 @@ namespace SkillBot.Utilities {
 
             for (int i = 0; i < 3; i++)
             {
-                HttpResponseMessage resp = await Http.Get($"http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item={itemId}");
+                HttpResponseMessage resp;
+                JObject @object;
+                string data;
 
-                // Checking if response if valid
-                if (!resp.IsSuccessStatusCode)
+                // Getting just the price
+                if (!justPrice)
                 {
+                    resp = await Http.Get(useProxy ? proxy + url : url);
 
-                    // Checking if the item wasn't found
-                    if (resp.StatusCode == HttpStatusCode.NotFound)
+                    // Checking if response if valid
+                    if (resp == null || !resp.IsSuccessStatusCode)
                     {
+
+                        // Checking if fatal error happened
+                        if (resp == null)
+                        {
+                            useProxy = !useProxy;
+                            continue;
+                        }
+
+                        // Checking if the item wasn't found
+                        if (resp.StatusCode == HttpStatusCode.NotFound)
+                        {
+                            resp.Dispose();
+                            break;
+                        }
+
+                        // Trying again
                         resp.Dispose();
-                        break;
+                        continue;
                     }
-                        
-                    // Trying again
+
+                    // Got the proper data
+                    data = await resp.Content.ReadAsStringAsync();
                     resp.Dispose();
-                    continue;
+
+                    // Checking it content is ok
+                    if (data.Trim().IsNullOrEmpty())
+                    {
+                        System.Threading.Thread.Sleep(wait);
+                        continue;
+                    }
+
+                    @object = JObject.Parse(data);
+                    item.Price = @object["item"]["current"]["price"].ToString().ToInt();
+                    item.Name = @object["item"]["name"].ToString();
+
+                    // Checking if the price was cast
+                    if (item.Price != -1)
+                        return item;
                 }
-
-                // Got the proper data
-                string data = await resp.Content.ReadAsStringAsync();
-                JObject @object = JObject.Parse(data);
-                item.Price = @object["item"]["current"]["price"].ToString().ToInt();
-                item.Name = @object["item"]["name"].ToString();
-
-                // Checking if the price was cast
-                if (item.Price != -1)
-                    return item;
 
                 // Making scond call
                 for (int j = 0; j < 3; j++)
                 {
                     // Have to make another call because of the stupid formatting
-                    resp = await Http.Get($"http://services.runescape.com/m=itemdb_rs/api/graph/{itemId}.json");
+                    resp = await Http.Get(useProxy ? proxy + graphUrl : graphUrl);
 
                     // Checking if response was valid
-                    if (!resp.IsSuccessStatusCode)
+                    if (resp == null || !resp.IsSuccessStatusCode)
                     {
-                        
+
+                        // Checking if fatal error happened
+                        if (resp == null)
+                        {
+                            useProxy = !useProxy;
+                            continue;
+                        }
+
                         // Checking if item was not found (impossibru)
                         if (resp.StatusCode == HttpStatusCode.NotFound)
                         {
@@ -133,6 +171,14 @@ namespace SkillBot.Utilities {
                     }
 
                     data = await resp.Content.ReadAsStringAsync();
+                    resp.Dispose();
+
+                    // Checking it content is ok
+                    if (data.Trim().IsNullOrEmpty()) {
+                        System.Threading.Thread.Sleep(wait);
+                        continue;
+                    }
+
                     @object = JObject.Parse(data);
                     item.Price = @object["daily"].Last.Last.ToString().ToInt();
 

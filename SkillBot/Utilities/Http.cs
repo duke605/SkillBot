@@ -12,11 +12,19 @@ namespace SkillBot.Utilities {
         {
             using (HttpClient client = new HttpClient())
             {
-                Uri uri = new Uri(url);
+                try
+                {
+                    Uri uri = new Uri(url);
 
-                client.DefaultRequestHeaders.Add("Accept", accept);
- 
-                return await client.GetAsync(uri);
+                    client.DefaultRequestHeaders.Add("Accept", accept);
+
+                    return await client.GetAsync(uri);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.InnerException.Message);
+                    return null;
+                }
             }
         }
 
