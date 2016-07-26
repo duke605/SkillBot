@@ -19,6 +19,7 @@ namespace SkillBot.Commands {
         {
             FluentCommandLineParser parser = new FluentCommandLineParser();
             Arguments a = new Arguments();
+            string help;
 
             parser.Setup<int?>('t', "take")
                 .SetDefault(null)
@@ -28,7 +29,20 @@ namespace SkillBot.Commands {
                 .SetDefault(0)
                 .Callback(skip => a.Skip = skip);
 
-            parser.Parse(args);
+            var result = parser.Parse(args);
+            help = HelpFormatter.GetHelpForCommand(parser);
+
+            // Showing mistakes and proper command usage
+            if (result.HasErrors) {
+                return $"{result.ErrorText}\r\n" +
+                       $"Command Usage:\r\n" +
+                       $"{help}";
+            }
+
+            // Showing help
+            if (result.HelpCalled) {
+                return $"Command Usage:\r\n{help}";
+            }
 
             return a;
         }

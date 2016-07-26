@@ -73,11 +73,10 @@ namespace SkillBot.Commands {
                 .Callback(skill => a.Skill = skill)
                 .WithDescription("The skill this method of training is for.");
 
-            parser.SetupHelp("?", "help")
-                .Callback(h => help = h);
+            parser.SetupHelp("?", "help");
 
             var result = parser.Parse(args);
-            parser.HelpOption.ShowHelp(parser.Options);
+            help = HelpFormatter.GetHelpForCommand(parser);
 
             // Showing mistakes and proper command usage
             if (result.HasErrors) {

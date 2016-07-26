@@ -45,7 +45,7 @@ namespace SkillBot.Commands {
             parser.Setup<bool>('g', "github")
                 .Callback(git => a.GitHub = git)
                 .SetDefault(false)
-                .WithDescription("Force table to be uploaded to github. (Helps if on a smaller screen");
+                .WithDescription("Force table to be uploaded to github. (Helps if on a smaller screens)");
 
             parser.Setup<int>('l', "level")
                 .Callback(level => a.TargetLevel = level)
@@ -53,17 +53,14 @@ namespace SkillBot.Commands {
                 .WithDescription("The target level you wish to achive.");
 
             parser.Setup<double>('b', "boost")
-                .Callback(boost => a.Boost = (decimal) ((boost / 100) + 1))
+                .Callback(boost => a.Boost = (decimal) ((boost/100) + 1))
                 .SetDefault(0)
                 .WithDescription("Boosted exp. (Eg. For portables put \"10\" for a 10% exp boost)");
-
-
             
-            parser.SetupHelp("?", "help")
-                .Callback(t => help = t);
+            parser.SetupHelp("?", "help");
            
             var result = parser.Parse(args);
-            parser.HelpOption.ShowHelp(parser.Options);
+            help = HelpFormatter.GetHelpForCommand(parser);
 
             // Showing mistakes and proper command usage
             if (result.HasErrors)
@@ -113,6 +110,7 @@ namespace SkillBot.Commands {
                     .Where(m => m.method.Skill == a.Skill.ToString())
                     .Select(m => new
                     {
+                        Id = m.method.MethodId,
                         Number = (int) Math.Ceiling(remainingExp/(a.Boost*m.method.Exp)),
                         m.method.Name,
                         m.method.Level,
@@ -134,6 +132,7 @@ namespace SkillBot.Commands {
 
                         return new
                         {
+                            m.Id,
                             m.Number,
                             m.Name,
                             m.Level,
@@ -146,7 +145,7 @@ namespace SkillBot.Commands {
                     });
 
                 string table = Table.MakeTable(methods,
-                    new[] {"Number", "Name", "Level", "Exp", "Exp per Hour", "Profit/Loss", "Gp/Xp", "Time"});
+                    new[] {"Id", "Number", "Name", "Level", "Exp", "Exp per Hour", "Profit/Loss", "Gp/Xp", "Time"});
 
                 // Checking if it can send to the channel
                 if (table.Length <= 2000 && !a.GitHub)

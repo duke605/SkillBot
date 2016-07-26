@@ -77,7 +77,7 @@ namespace SkillBot.Utilities {
 
         public static async Task<Item> GetItemInfo(int itemId, bool justPrice = false)
         {
-            int wait = 100;
+            int wait = 500;
             bool useProxy = true;
             string proxy = $"https://crossorigin.me/";
             string url = $"http://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item={itemId}";
