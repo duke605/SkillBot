@@ -1,13 +1,13 @@
 ##Commands
 `!calc` --Calculates training methods
-```-u, --username  (Required) Your runescape username.
+```
+-u, --username  (Required) Your runescape username.
 -s, --skill     (Required) Skill to calculate for (Crafting, Fletching, Smithing...)
 -S, --sort      (Optional) The sort order of the data.
 -d, --direction (Optional) The direction of the sort (Asc, Desc)
 -g, --github    (Optional) Force table to be uploaded to github. (Helps if on a smaller screens)
 -l, --level     (Required) The target level you wish to achive.
--b, --boost     (Optional) Boosted exp. (Eg. For portables put "10" for a 10% exp boost)
-testing```
+-b, --boost     (Optional) Boosted exp. (Eg. For portables put "10" for a 10% exp boost)```
 
 ##License
 ```
