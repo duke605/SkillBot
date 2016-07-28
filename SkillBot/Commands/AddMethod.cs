@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Fclp;
+using Fclp.Internals.Extensions;
 using SkillBot.Extensions;
 using SkillBot.Utilities;
 
@@ -117,7 +118,7 @@ namespace SkillBot.Commands {
                     Level = a.Level,
                     Skill = a.Skill.ToString(),
                     Name = a.Name,
-                    UserId = (long) 1
+                    UserId = (long) e.User.Id
                 };
 
                 await m.Edit("`Adding method... [Adding method to DB]`");

@@ -288,11 +288,11 @@
 <Connection><DesignerInfoPropertySet><DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" /></DesignerInfoPropertySet></Connection>
 <edmx:Options><DesignerInfoPropertySet><DesignerProperty Name="ValidateOnBuild" Value="True" /><DesignerProperty Name="EnablePluralization" Value="True" /><DesignerProperty Name="IncludeForeignKeysInModel" Value="True" /><DesignerProperty Name="UseLegacyProvider" Value="False" /><DesignerProperty Name="CodeGenerationStrategy" Value="None" /></DesignerInfoPropertySet></edmx:Options>
 <edmx:Diagrams >
-      <Diagram DiagramId="cfc84c73c4ab4bcdaa005088fb17e39a" Name="Diagram1">
-        <EntityTypeShape EntityType="DevelopmentModel.Input" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+      <Diagram DiagramId="cfc84c73c4ab4bcdaa005088fb17e39a" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="DevelopmentModel.Input" Width="1.5" PointX="6.375" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DevelopmentModel.Item" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DevelopmentModel.Method" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DevelopmentModel.Output" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DevelopmentModel.Method" Width="1.5" PointX="3.375" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DevelopmentModel.Output" Width="1.5" PointX="3.75" PointY="1.875" IsExpanded="true" />
         <AssociationConnector Association="DevelopmentModel.FK_Inputs_to_Items" ManuallyRouted="false" />
         <AssociationConnector Association="DevelopmentModel.FK_Inputs_to_Methods" ManuallyRouted="false" />
         <AssociationConnector Association="DevelopmentModel.FK_Outputs_to_Items" ManuallyRouted="false" />

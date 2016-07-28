@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Commands\About.cs" />
     <Compile Include="Commands\AddMethod.cs" />
+    <Compile Include="Commands\DeleteMethod.cs" />
     <Compile Include="Commands\SkillCalculate.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\UpdateMethod.cs" />
