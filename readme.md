@@ -7,7 +7,8 @@
 -d, --direction (Optional) The direction of the sort (Asc, Desc)
 -g, --github    (Optional) Force table to be uploaded to github. (Helps if on a smaller screens)
 -l, --level     (Required) The target level you wish to achive.
--b, --boost     (Optional) Boosted exp. (Eg. For portables put "10" for a 10% exp boost)```
+-b, --boost     (Optional) Boosted exp. (Eg. For portables put "10" for a 10% exp boost)
+```
 
 ##License
 ```
@@ -31,4 +32,5 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.```
+THE SOFTWARE.
+```
