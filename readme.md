@@ -1,5 +1,5 @@
 ##Commands
-`!calc` --Calculates training methods
+`!calc` --Calculates training methods.
 ```
 -u, --username  (Required) Your runescape username.
 -s, --skill     (Required) Skill to calculate for (Crafting, Fletching, Smithing...)
@@ -9,6 +9,26 @@
 -l, --level     (Required) The target level you wish to achive.
 -b, --boost     (Optional) Boosted exp. (Eg. For portables put "10" for a 10% exp boost)
 ```
+
+`!update_method` --Updates a training method you have created.
+```
+-i, --id    (Required) The id of the method to be updated.
+-n, --name  (Optional) The new name of the method.
+-e, --exp   (Optional) The new exp of the method.
+-u, --units (Optional) The new units of the method.
+-l, --level (Optional) The new level of the method.
+```
+
+`!delete_method` --Deletes a training method you have created.
+```
+-i, --id    (Required) The id of the method you wish to delete.
+```
+
+`!update_prices` --Updates the prices of all tracked items. (May take a long time.)
+
+##Database
+####For those interested
+![alt text](http://i.imgur.com/wnUoVc9.png "SkillBot Database ERD")
 
 ##License
 ```
