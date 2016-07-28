@@ -10,6 +10,7 @@
 -b, --boost     (Optional) Boosted exp. (Eg. For portables put "10" for a 10% exp boost)
 ```
 
+
 `!update_method` --Updates a training method you have created.
 ```
 -i, --id    (Required) The id of the method to be updated.
@@ -19,10 +20,12 @@
 -l, --level (Optional) The new level of the method.
 ```
 
+
 `!delete_method` --Deletes a training method you have created.
 ```
 -i, --id    (Required) The id of the method you wish to delete.
 ```
+
 
 `!update_prices` --Updates the prices of all tracked items. (May take a long time.)
 
