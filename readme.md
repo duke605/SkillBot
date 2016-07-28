@@ -6,7 +6,8 @@
 -d, --direction (Optional) The direction of the sort (Asc, Desc)
 -g, --github    (Optional) Force table to be uploaded to github. (Helps if on a smaller screens)
 -l, --level     (Required) The target level you wish to achive.
--b, --boost     (Optional) Boosted exp. (Eg. For portables put "10" for a 10% exp boost)```
+-b, --boost     (Optional) Boosted exp. (Eg. For portables put "10" for a 10% exp boost)
+testing```
 
 ##License
 ```
