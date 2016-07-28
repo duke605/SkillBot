@@ -1,5 +1,5 @@
 ##Commands
-`!calc`
+`!calc` --Calculates training methods
 ```-u, --username  (Required) Your runescape username.
 -s, --skill     (Required) Skill to calculate for (Crafting, Fletching, Smithing...)
 -S, --sort      (Optional) The sort order of the data.
